@@ -13,6 +13,15 @@ position after a command performs some editing function so as not to confuse and
 the user.
 
 So what's the point of a `save-buffer-state` function? To perform some editing function and
-the completely undo it?
+then completely undo it?
 
-Well, there are other use cases for the `save-excursion` function.
+Well, another use for the `save-excursion` function is to convert a movement command into
+a predicate. For example,
+
+    (defun eolp ()
+      "Return t if point is at the end of a line."
+      (interactive)
+      (let ((pt (point))
+        (save-excursion
+          (move-end-of-line)
+          (eq (point) pt)))))
